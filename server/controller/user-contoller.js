@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = require('../model/user');
+
 
 
 const signUp = async(req,res,next) =>{
@@ -18,10 +20,16 @@ const signUp = async(req,res,next) =>{
         // }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const userId = await User.create(fname, lname, email, hashedPassword);
-        return res.status(201).json({ userId });
+        const user = await User.create(fname, lname, email, hashedPassword);
+        // if(!user){
+        //     return res.status(401).json({ message:"email already exists" });
+        // }
+
+        return res.status(201).json({ message:"sign up successfully" });
+
     } catch (err) {
-        return next(err);
+        // return next(err)
+        return res.status(401).json({ message:"email already exists" })
     }
 
 }
@@ -31,13 +39,27 @@ const logIn = async(req,res,next) => {
     const { email, password } = req.body
 
     try{
-        await User.findByEmailAndPassword(email,password)
-        const token = User.generateAuthToken(email)
-        return res.status(201).json({ token:token });
+
+        const user = await User.findByEmailAndPassword(email,password)
+
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid email or password' });
+          }
+
+        const token = await User.generateAuthToken(email)
+        return res.status(201).json({ token:token});
+
     }catch (err){
         return next(err);
     }
 }
 
+const logOut = async(req,res,next) =>{
+    req.session.destroy();
+    return res.redirect('/');
+}
+const getProducts = async(req,res,next)=>{
+    
+}
 
-module.exports = {signUp ,logIn};
+module.exports = {signUp ,logIn,logOut};

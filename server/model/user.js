@@ -1,5 +1,6 @@
 const pool =  require("../config/db.js")
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 class User {
     static async create(fname, lname, email, password) {
@@ -33,9 +34,23 @@ class User {
     static async findByEmailAndPassword(email,password) {
         const conn = await pool.getConnection();
         try {
-            const sql = `SELECT * FROM users WHERE email = ? AND password = ?`;
-            const [rows, fields] = await conn.execute(sql, [email,password]);
-            return rows[0];
+
+            const sql = `SELECT * FROM users WHERE email = ? `;
+            const [rows] = await conn.execute(sql, [email]);
+            
+            if (rows.length === 0) {
+                return null; 
+              }
+
+            const userData = rows[0]
+            const passwordMatches  =await bcrypt.compare(password, userData.password)
+
+            if(!passwordMatches){
+                return null
+            }
+
+            return userData;
+
         } catch (err) {
             console.error(`Error finding user with email and password ${email} ${password}: ${err.message}`);
             throw err;
@@ -47,6 +62,12 @@ class User {
         const token = jwt.sign({ email: email }, 'your-secret-key');
         return token;
       }
+
+    static async comparePassword(password, hashedPassword) {
+        return await bcrypt.compare(password, hashedPassword);
+    }
+    // static async 
+
 
 }
 
