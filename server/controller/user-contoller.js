@@ -4,9 +4,9 @@ const User = require('../model/user');
 
 
 
-const signUp = async(req,res,next) =>{
+const signUp = async (req, res, next) => {
 
-    const {fname, lname, email, password } = req.body;
+    const { fname, lname, email, password } = req.body;
 
     try {
         // const existingUser = await User.findByUsername(username);
@@ -25,75 +25,76 @@ const signUp = async(req,res,next) =>{
         //     return res.status(401).json({ message:"email already exists" });
         // }
 
-        return res.status(201).json({ message:"sign up successfully" });
+        return res.status(201).json({ message: "sign up successfully" });
 
     } catch (err) {
         // return next(err)
-        return res.status(401).json({ message:"email already exists" })
+        return res.status(401).json({ message: "email already exists" })
     }
 
 }
 
-const logIn = async(req,res,next) => {
+const logIn = async (req, res, next) => {
 
     const { email, password } = req.body
 
-    try{
+    try {
 
-        const user = await User.findByEmailAndPassword(email,password)
+        const user = await User.findByEmailAndPassword(email, password)
 
         if (!user) {
             return res.status(401).json({ message: 'Invalid email or password' });
-          }
+        }
 
         const token = await User.generateAuthToken(email)
-        return res.status(201).json({ token:token});
+        return res.status(201).json({ token: token });
 
-    }catch (err){
+    } catch (err) {
         return next(err);
     }
 }
 
-const logOut = async(req,res,next) =>{
+const logOut = async (req, res, next) => {
     req.session.destroy();
     return res.redirect('/');
 }
-const getAllProducts = async(req,res,next)=>{
+const getAllProducts = async (req, res, next) => {
 
-    try{
+    try {
 
         const products = await User.getAllProductsByName()
-
-        if(!products){
+        console.log(products)
+        if (!products) {
             return res.status(401).json({ message: 'product isnt available' });
         }
 
-        return res.status(201).json({productList:products})
+        return res.status(201).json({ productList: products })
 
 
-    }catch(err){
+    } catch (err) {
+        console.log(err)
         return next(err);
     }
 }
 
-const getUserDetails = async(req,res,next)=>{
+const getUserDetails = async (req, res, next) => {
 
-    const {email} = req.params
-    console.log('email ',email);
+    const { email } = req.params
+    console.log('email ', email);
 
-    try{
+    try {
 
         const userDetails = await User.getUserDetailsByEmail(email)
 
-        if(!userDetails){
+        if (!userDetails) {
             return res.status(401).json({ message: 'user details not available' });
         }
 
-        return res.status(201).json({userDetails:userDetails})
+        return res.status(201).json({ userDetails: userDetails })
 
-    }catch(err){
+    } catch (err) {
 
     }
 }
 
-module.exports = {signUp ,logIn,logOut,getAllProducts,getUserDetails};
+module.exports = { signUp, logIn, logOut, getAllProducts, getUserDetails };

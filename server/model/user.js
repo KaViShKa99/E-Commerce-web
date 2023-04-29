@@ -1,4 +1,4 @@
-const pool =  require("../config/db.js")
+const pool = require("../config/db.js")
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -7,10 +7,10 @@ class User {
         const conn = await pool.getConnection();
         try {
             const sql = `INSERT INTO users (fname, lname, email, password) VALUES (?, ?, ?, ?)`;
-            const [rows, fields] = await conn.execute(sql, [fname, lname, email ,password]);
+            const [rows, fields] = await conn.execute(sql, [fname, lname, email, password]);
             return rows.insertId;
         } catch (err) {
-            console.error(`Error creating user ${fname }: ${err.message}`);
+            console.error(`Error creating user ${fname}: ${err.message}`);
             throw err;
         } finally {
             conn.release();
@@ -30,22 +30,22 @@ class User {
     //       conn.release();
     //     }
     //   }
-    
-    static async findByEmailAndPassword(email,password) {
+
+    static async findByEmailAndPassword(email, password) {
         const conn = await pool.getConnection();
         try {
 
             const sql = `SELECT * FROM users WHERE email = ? `;
             const [rows] = await conn.execute(sql, [email]);
-            
+
             if (rows.length === 0) {
-                return null; 
-              }
+                return null;
+            }
 
             const userData = rows[0]
-            const passwordMatches  =await bcrypt.compare(password, userData.password)
+            const passwordMatches = await bcrypt.compare(password, userData.password)
 
-            if(!passwordMatches){
+            if (!passwordMatches) {
                 return null
             }
 
@@ -61,15 +61,24 @@ class User {
     static async generateAuthToken(email) {
         const token = jwt.sign({ email: email }, 'your-secret-key');
         return token;
-      }
+    }
 
     static async comparePassword(password, hashedPassword) {
         return await bcrypt.compare(password, hashedPassword);
     }
-    static async getAllProductsByName(){
-        const conn = await pool.getConnection();
+    static async getAllProductsByName() {
+        const conn = await pool.getConnection(
+            (err, connection) => {
+                if (err) {
+                    console.error('Error connecting to database: ' + err.stack);
+                    return;
+                }
 
-        try{
+                console.log('Connected to database as ID ' + connection.threadId);
+            }
+        );
+
+        try {
 
             // const sql = `SELECT * FROM products WHERE name LIKE '%${name}%' `;
             const sql = `SELECT * FROM products `;
@@ -77,19 +86,19 @@ class User {
 
             return rows
 
-        }catch(err){
+        } catch (err) {
 
             throw err
-            
+
         }
-        
+
 
     }
 
-    static async getUserDetailsByEmail(email){
+    static async getUserDetailsByEmail(email) {
         const conn = await pool.getConnection();
 
-        try{
+        try {
 
             // const sql = `SELECT * FROM products WHERE name LIKE '%${name}%' `;
             const sql = `SELECT * FROM products WHERE email = ? `;
@@ -97,10 +106,10 @@ class User {
 
             return rows
 
-        }catch(err){
+        } catch (err) {
 
             throw err
-            
+
         }
     }
 }
