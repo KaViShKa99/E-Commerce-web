@@ -58,8 +58,42 @@ const logOut = async(req,res,next) =>{
     req.session.destroy();
     return res.redirect('/');
 }
-const getProducts = async(req,res,next)=>{
-    
+const getAllProducts = async(req,res,next)=>{
+
+    try{
+
+        const products = await User.getAllProductsByName()
+
+        if(!products){
+            return res.status(401).json({ message: 'product isnt available' });
+        }
+
+        return res.status(201).json({productList:products})
+
+
+    }catch(err){
+        return next(err);
+    }
 }
 
-module.exports = {signUp ,logIn,logOut};
+const getUserDetails = async(req,res,next)=>{
+
+    const {email} = req.params
+    console.log('email ',email);
+
+    try{
+
+        const userDetails = await User.getUserDetailsByEmail(email)
+
+        if(!userDetails){
+            return res.status(401).json({ message: 'user details not available' });
+        }
+
+        return res.status(201).json({userDetails:userDetails})
+
+    }catch(err){
+
+    }
+}
+
+module.exports = {signUp ,logIn,logOut,getAllProducts,getUserDetails};
