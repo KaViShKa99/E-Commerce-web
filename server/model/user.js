@@ -66,12 +66,11 @@ class User {
     static async comparePassword(password, hashedPassword) {
         return await bcrypt.compare(password, hashedPassword);
     }
-    static async getAllProductsByName(){
+    static async getAllProductsDetails(){
         const conn = await pool.getConnection();
 
         try{
 
-            // const sql = `SELECT * FROM products WHERE name LIKE '%${name}%' `;
             const sql = `SELECT * FROM products `;
             const [rows] = await conn.execute(sql, []);
 
@@ -91,9 +90,25 @@ class User {
 
         try{
 
-            // const sql = `SELECT * FROM products WHERE name LIKE '%${name}%' `;
             const sql = `SELECT * FROM products WHERE email = ? `;
             const [rows] = await conn.execute(sql, [email]);
+
+            return rows
+
+        }catch(err){
+
+            throw err
+            
+        }
+    }
+
+    static async getProductDetailsById(id){
+        const conn = await pool.getConnection();
+
+        try{
+
+            const sql = `SELECT * FROM products WHERE id = ? `;
+            const [rows] = await conn.execute(sql, [id]);
 
             return rows
 

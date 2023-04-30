@@ -62,7 +62,7 @@ const getAllProducts = async(req,res,next)=>{
 
     try{
 
-        const products = await User.getAllProductsByName()
+        const products = await User.getAllProductsDetails()
 
         if(!products){
             return res.status(401).json({ message: 'product isnt available' });
@@ -79,7 +79,6 @@ const getAllProducts = async(req,res,next)=>{
 const getUserDetails = async(req,res,next)=>{
 
     const {email} = req.params
-    console.log('email ',email);
 
     try{
 
@@ -96,4 +95,22 @@ const getUserDetails = async(req,res,next)=>{
     }
 }
 
-module.exports = {signUp ,logIn,logOut,getAllProducts,getUserDetails};
+const getProductDetails = async(req,res,next)=>{
+    const {id} = req.params
+    
+    try{
+
+        const userDetails = await User.getProductDetailsById(id)
+
+        if(!userDetails){
+            return res.status(401).json({ message: 'product details not available' });
+        }
+
+        return res.status(201).json({userDetails:userDetails})
+
+    }catch(err){
+        return res.status(401).json({ message: err })
+    }
+}
+
+module.exports = {signUp ,logIn,logOut,getAllProducts,getUserDetails,getProductDetails};
