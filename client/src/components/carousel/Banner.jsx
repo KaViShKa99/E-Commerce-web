@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Item = ({ item, index }) => (
   <div className={`carousel-item ${index === 0 ? "active" : ""}`}>
     <Link to={item.to}>
-      <img src={item.img} className="img-fluid" alt={item.title} />
+      <img src={item.img} className="img-fluid" alt={item.title} style={{ width: '100%'}}/>
       {(item.title || item.description) && (
         <div className="carousel-caption d-none d-md-block">
           {item.title && <h5>{item.title}</h5>}

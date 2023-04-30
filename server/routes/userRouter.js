@@ -6,10 +6,10 @@ const middleware = require('../middleware/middleware')
 
 
 
-userRouter.post("/login",[userSignInValidationRules(),validateSignin],logIn)
-userRouter.post("/signup",[userSignUpValidationRules(),validateSignup],signUp)
+userRouter.post("/login", [userSignInValidationRules(), validateSignin], logIn)
+userRouter.post("/signup", [userSignUpValidationRules(), validateSignup], signUp)
 // userRouter.post("/signup",[middle1ware.isNotLoggedIn,userSignUpValidationRules(),validateSignup],signUp)
-userRouter.get("/logout",logOut)
+userRouter.get("/logout", logOut)
 // userRouter.get("/getallproducts/:name",getAllProducts)
 userRouter.get("/getallproducts",getAllProducts)
 userRouter.get("/getuserdetails/:email",getUserDetails)

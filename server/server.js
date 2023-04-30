@@ -8,12 +8,12 @@ const app = express()
 app.use(cors());
 app.use(express.json());
 
-app.use("/user",userRouter)
+app.use("/user", userRouter)
 
 app.use(session({
-    secret: 'your-secret-key', 
-    resave: false, 
-    saveUninitialized: false
-  }));
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false
+}));
 
 app.listen(5000, () => console.log("app started at 5000..."));

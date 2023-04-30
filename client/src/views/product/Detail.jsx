@@ -31,9 +31,9 @@ class ProductDetailView extends Component {
   }
   render() {
     return (
-      <div className="container-fluid mt-3">
-        <div className="row">
-          <div className="col-md-8">
+      <div className="container-fluid mt-3 ">
+        <div className="row d-flex justify-content-center">
+          <div className="col-md-8" >
             <div className="row mb-3">
               <div className="col-md-5 text-center">
                 <img
@@ -215,7 +215,7 @@ class ProductDetailView extends Component {
                 </div>
               </div>
             </div>
-            <div className="row">
+            {/* <div className="row">
               <div className="col-md-12">
                 <nav>
                   <div className="nav nav-tabs" id="nav-tab" role="tablist">
@@ -325,12 +325,12 @@ class ProductDetailView extends Component {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
-          <div className="col-md-4">
+          {/* <div className="col-md-4">
             <CardFeaturedProduct data={data.products} />
             <CardServices />
-          </div>
+          </div> */}
         </div>
       </div>
     );

@@ -49,10 +49,6 @@ class MyProfileView extends Component {
           </div>
           <div className="col-md-8">
             <ChangePasswordForm onSubmit={this.onSubmitChangePassword} />
-            <br></br>
-            <SettingForm />
-            <br></br>
-            <CardListForm />
           </div>
         </div>
       </div>

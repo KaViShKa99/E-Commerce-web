@@ -55,11 +55,11 @@ const Header = () => {
                       <IconPersonBadgeFill /> My Profile
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link className="dropdown-item" to="/star/zone">
                       <IconStarFill className="text-warning" /> Star Zone
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link className="dropdown-item" to="/account/orders">
                       <IconListCheck className="text-primary" /> Orders
@@ -73,7 +73,7 @@ const Header = () => {
                   <li>
                     <hr className="dropdown-divider" />
                   </li>
-                  <li>
+                  {/* <li>
                     <Link className="dropdown-item" to="/account/notification">
                       <IconBellFill className="text-primary" /> Notification
                     </Link>
@@ -85,7 +85,7 @@ const Header = () => {
                   </li>
                   <li>
                     <hr className="dropdown-divider" />
-                  </li>
+                  </li> */}
                   <li>
                     <Link className="dropdown-item" to="/">
                       <IconDoorClosedFill className="text-danger" /> Logout
@@ -93,7 +93,7 @@ const Header = () => {
                   </li>
                 </ul>
               </div>
-              <a
+              {/* <a
                 href="https://www.buymeacoffee.com/bhaumik"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -102,9 +102,9 @@ const Header = () => {
                   src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
                   alt="BuyMeACoffee" width="120"
                 />
-              </a>
-              {/* <Link to="/account/signin">Sign In</Link> |{" "}
-              <Link to="/account/signup"> Sign Up</Link> */}
+              </a> */}
+              <Link to="/account/signin">Sign In</Link> |{" "}
+              <Link to="/account/signup"> Sign Up</Link>
             </div>
           </div>
         </div>

@@ -50,34 +50,32 @@ const ProfileForm = (props) => {
             validate={[required]}
             tips="You don't allow uploading a photo more than 5MB"
           />
-          <p className="card-text">
+          {/* <p className="card-text">
             With supporting text below as a natural lead-in to additional
             content.
-          </p>
+          </p> */}
         </div>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
             <Field
-              name="name"
+              name="firstName"
               type="text"
               component={renderFormGroupField}
-              placeholder="Your name"
+              placeholder="First Name"
               icon={IconPerson}
               validate={[required, name]}
               required={true}
             />
           </li>
           <li className="list-group-item">
-            <Field
-              name="mobileNo"
-              type="number"
+             <Field
+              name="lastName"
+              type="text"
               component={renderFormGroupField}
-              placeholder="Mobile no without country code"
-              icon={IconPhone}
-              validate={[required, maxLengthMobileNo, minLengthMobileNo, digit]}
+              placeholder="Last Name"
+              icon={IconPerson}
+              validate={[required, name]}
               required={true}
-              max="999999999999999"
-              min="9999"
             />
           </li>
           <li className="list-group-item">
@@ -91,7 +89,7 @@ const ProfileForm = (props) => {
               required={true}
             />
           </li>
-          <li className="list-group-item">
+          {/* <li className="list-group-item">
             <Field
               name="location"
               type="text"
@@ -112,7 +110,7 @@ const ProfileForm = (props) => {
               validate={[required]}
               required={true}
             />
-          </li>
+          </li> */}
         </ul>
         <div className="card-body">
           <button

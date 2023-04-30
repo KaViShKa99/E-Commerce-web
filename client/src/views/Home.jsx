@@ -10,6 +10,7 @@ import { ReactComponent as IconDisplay } from "bootstrap-icons/icons/display.svg
 import { ReactComponent as IconHdd } from "bootstrap-icons/icons/hdd.svg";
 import { ReactComponent as IconUpcScan } from "bootstrap-icons/icons/upc-scan.svg";
 import { ReactComponent as IconTools } from "bootstrap-icons/icons/tools.svg";
+import axiosInstance from "../axios";
 
 const Support = lazy(() => import("../components/Support"));
 const Banner = lazy(() => import("../components/carousel/Banner"));
@@ -33,7 +34,33 @@ class HomeView extends Component {
     IconTools: IconTools,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      products: []
+    }
+    this.url = process.env.REACT_APP_BE_URL;
+  }
+
+  async getData() {
+    try {
+      const res = await axiosInstance.get(`${this.url}/user/getallproducts`);
+      console.log(res)
+      this.setState({ products: res.data.productList });
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  componentDidMount() {
+    this.getData();
+  }
+  
+
   render() {
+
+
     const iconProducts = data.iconProducts;
     const rows = [...Array(Math.ceil(iconProducts.length / 4))];
     // chunk the products into the array of rows
@@ -42,45 +69,44 @@ class HomeView extends Component {
     );
     // map the rows as div.row
     const carouselContent = productRows.map((row, idx) => (
-      <div className={`carousel-item ${idx === 0 ? "active" : ""}`} key={idx}>
         <div className="row g-3">
-          {row.map((product, idx) => {
-            const ProductImage = this.components[product.img];
+          {this.state.products.map((product, idx) => {
+            const ProductImage = this.components["IconLaptop"];
             return (
-              <div key={idx} className="col-md-3">
+              <div key={idx} className="col-lg-3 col-sm-6">
                 <CardIcon
-                  title={product.title}
-                  text={product.text}
-                  tips={product.tips}
-                  to={product.to}
+                  title={product.name}
+                  text={product.description}
+                  tips={product.price}
+                  to={product.id}
                 >
-                  <ProductImage className={product.cssClass} width="80" height="80" />
+                  <ProductImage  width="80" height="80" />
                 </CardIcon>
               </div>
             );
           })}
         </div>
-      </div>
     ));
+
 
     return (
       <React.Fragment>
         <Banner className="mb-3" id="carouselHomeBanner" data={data.banner} />
         <div className="container-fluid bg-light mb-3">
           <div className="row g-3">
-            <div className="col-md-9">
+            <div className="col-md-">
               <Carousel id="elect-product-category" className="mb-3">
                 {carouselContent}
               </Carousel>
-              <Support />
+              {/* <Support /> */}
             </div>
-            <div className="col-md-3">
+            {/* <div className="col-md-3">
               <CardLogin className="mb-3" />
               <CardImage src="../../images/banner/Watches.webp" to="promo" />
-            </div>
+            </div> */}
           </div>
         </div>
-        <div className="container-fluid bg-light mb-3">
+        {/* <div className="container-fluid bg-light mb-3">
           <div className="row">
             <div className="col-md-12">
               <CardDealsOfTheDay
@@ -94,12 +120,12 @@ class HomeView extends Component {
               </CardDealsOfTheDay>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        <div className="bg-info bg-gradient p-3 text-center mb-3">
+        {/* <div className="bg-info bg-gradient p-3 text-center mb-3">
           <h4 className="m-0">Explore Fashion Collection</h4>
-        </div>
-        <div className="container">
+        </div> */}
+        {/* <div className="container">
           <div className="row">
             <div className="col-md-3">
               <Link to="/" className="text-decoration-none">
@@ -142,7 +168,7 @@ class HomeView extends Component {
               </Link>
             </div>
           </div>
-        </div>
+        </div> */}
       </React.Fragment>
     );
   }
