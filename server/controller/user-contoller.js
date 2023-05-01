@@ -47,7 +47,11 @@ const logIn = async (req, res, next) => {
         }
 
         const token = await User.generateAuthToken(email)
-        return res.status(201).json({ token: token });
+        return res.status(201).json({ 
+            message:"login successful!",
+            token: token ,
+            email:email
+        });
 
     } catch (err) {
         return next(err);
