@@ -32,7 +32,7 @@ const signUp = async (req, res, next) => {
 
     } catch (err) {
         // return next(err)
-        return res.status(401).json({ message: "email already exists" })
+        return res.status(401).json({ status:400, message: "email already exists" })
     }
 
 }
@@ -46,11 +46,12 @@ const logIn = async (req, res, next) => {
         const user = await User.findByEmailAndPassword(email, password)
 
         if (!user) {
-            return res.status(401).json({ message: 'Invalid email or password' });
+            return res.status(401).json({ status:400,message: 'Invalid email or password' });
         }
 
         const token = await User.generateAuthToken(email)
         return res.status(201).json({ 
+            status:200,
             message:"login successful!",
             token: token ,
             email:email
