@@ -25,7 +25,10 @@ const signUp = async (req, res, next) => {
         //     return res.status(401).json({ message:"email already exists" });
         // }
 
-        return res.status(201).json({ message: "sign up successfully" });
+        return res.status(201).json({ 
+            status:200 , 
+            message: "sign up successfully" 
+        });
 
     } catch (err) {
         // return next(err)
