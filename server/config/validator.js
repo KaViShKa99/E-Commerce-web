@@ -19,29 +19,29 @@ const userSignInValidationRules = () => {
   ]
 }
 const validateSignup = (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      var messages = [];
-      errors.array().forEach((error) => {
-        messages.push(error.msg);
-      });
-      req.flash("error", messages);
-      return res.redirect("/user/signup");
-    }
-    next();
-  };
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    var messages = [];
+    errors.array().forEach((error) => {
+      messages.push(error.msg);
+    });
+    req.flash("error", messages);
+    return res.redirect("/user/signup");
+  }
+  next();
+};
 
 const validateSignin = (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      var messages = [];
-      errors.array().forEach((error) => {
-        messages.push(error.msg);
-      });
-      req.flash("error", messages);
-      return res.redirect("/user/signin");
-    }
-    next();
-  };
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    var messages = [];
+    errors.array().forEach((error) => {
+      messages.push(error.msg);
+    });
+    req.flash("error", messages);
+    return res.redirect("/user/signin");
+  }
+  next();
+};
 
-module.exports = {userSignUpValidationRules,userSignInValidationRules,validateSignup,validateSignin}
+module.exports = { userSignUpValidationRules, userSignInValidationRules, validateSignup, validateSignin }

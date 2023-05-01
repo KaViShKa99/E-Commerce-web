@@ -1,12 +1,10 @@
 import React, { lazy, Component } from "react";
 import { Link } from "react-router-dom";
-const SignInForm = lazy(() => import("../../components/account/SignInForm"));
+import SignInForm from "../../components/account/SignInForm";
 
-class SignInView extends Component {
-  onSubmit = async (values) => {
-    alert(JSON.stringify(values));
-  };
-  render() {
+
+const SignInView = () =>  {
+  
     return (
       <div className="container my-3">
         <div className="row border">
@@ -28,12 +26,11 @@ class SignInView extends Component {
           </div>
           <div className="col-md-6 p-3">
             <h4 className="text-center">Sign In</h4>
-            <SignInForm onSubmit={this.onSubmit} />
+            <SignInForm />
           </div>
         </div>
       </div>
     );
   }
-}
 
 export default SignInView;

@@ -1,4 +1,4 @@
-import React, { lazy, Component } from "react";
+import React, { lazy, Component, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 // import { link45, file, check2all } from "../npm/icon";
 import { data } from "../data";
@@ -22,8 +22,8 @@ const CardDealsOfTheDay = lazy(() =>
   import("../components/card/CardDealsOfTheDay")
 );
 
-class HomeView extends Component {
-  components = {
+const HomeView = () => {
+  let components = {
     IconLaptop: IconLaptop,
     IconHeadset: IconHeadset,
     IconPhone: IconPhone,
@@ -34,34 +34,30 @@ class HomeView extends Component {
     IconTools: IconTools,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      products: []
-    }
-    this.url = process.env.REACT_APP_BE_URL;
-  }
+  const [products, setProducts] = useState([])
 
-  async getData() {
+  const url = process.env.REACT_APP_BE_URL;
+
+  const getData = async () => {
     try {
-      const res = await axiosInstance.get(`${this.url}/user/getallproducts`);
+      const res = await axiosInstance.get(`${url}/user/getallproducts`);
       console.log(res)
-      this.setState({ products: res.data.productList });
+      if(res.status === 201){
+        setProducts(res?.data?.productList)
+      }
 
     } catch (err) {
       console.log(err)
     }
+
   }
 
-  componentDidMount() {
-    this.getData();
-  }
-  
-
-  render() {
+  useEffect(() => {
+    getData()
+  },[])
 
 
-    const iconProducts = data.iconProducts;
+    const iconProducts = data.iconProducts
     const rows = [...Array(Math.ceil(iconProducts.length / 4))];
     // chunk the products into the array of rows
     const productRows = rows.map((row, idx) =>
@@ -70,8 +66,8 @@ class HomeView extends Component {
     // map the rows as div.row
     const carouselContent = productRows.map((row, idx) => (
         <div className="row g-3">
-          {this.state.products.map((product, idx) => {
-            const ProductImage = this.components["IconLaptop"];
+          {products?.map((product, idx) => {
+            const ProductImage = components["IconLaptop"];
             return (
               <div key={idx} className="col-lg-3 col-sm-6">
                 <CardIcon
@@ -172,6 +168,5 @@ class HomeView extends Component {
       </React.Fragment>
     );
   }
-}
 
 export default HomeView;

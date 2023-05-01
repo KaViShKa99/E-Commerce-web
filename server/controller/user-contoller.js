@@ -25,14 +25,14 @@ const signUp = async (req, res, next) => {
         //     return res.status(401).json({ message:"email already exists" });
         // }
 
-        return res.status(201).json({ 
-            status:200 , 
-            message: "sign up successfully" 
+        return res.status(201).json({
+            status: 200,
+            message: "sign up successfully"
         });
 
     } catch (err) {
         // return next(err)
-        return res.status(401).json({ status:400, message: "email already exists" })
+        return res.status(401).json({ status: 400, message: "email already exists" })
     }
 
 }
@@ -46,15 +46,15 @@ const logIn = async (req, res, next) => {
         const user = await User.findByEmailAndPassword(email, password)
 
         if (!user) {
-            return res.status(401).json({ status:400,message: 'Invalid email or password' });
+            return res.status(401).json({ status: 400, message: 'Invalid email or password' });
         }
 
         const token = await User.generateAuthToken(email)
-        return res.status(201).json({ 
-            status:200,
-            message:"login successful!",
-            token: token ,
-            email:email
+        return res.status(201).json({
+            status: 200,
+            message: "login successful!",
+            token: token,
+            email: email
         });
 
     } catch (err) {
@@ -72,7 +72,7 @@ const getAllProducts = async (req, res, next) => {
 
         const products = await User.getAllProductsDetails()
 
-        if(!products){
+        if (!products) {
             return res.status(401).json({ message: 'product isnt available' });
         }
 
@@ -87,7 +87,7 @@ const getAllProducts = async (req, res, next) => {
 
 const getUserDetails = async (req, res, next) => {
 
-    const {email} = req.params
+    const { email } = req.params
 
     try {
 
@@ -104,22 +104,22 @@ const getUserDetails = async (req, res, next) => {
     }
 }
 
-const getProductDetails = async(req,res,next)=>{
-    const {id} = req.params
-    
-    try{
+const getProductDetails = async (req, res, next) => {
+    const { id } = req.params
+
+    try {
 
         const userDetails = await User.getProductDetailsById(id)
 
-        if(!userDetails){
+        if (!userDetails) {
             return res.status(401).json({ message: 'product details not available' });
         }
 
-        return res.status(201).json({userDetails:userDetails})
+        return res.status(201).json({ userDetails: userDetails })
 
-    }catch(err){
+    } catch (err) {
         return res.status(401).json({ message: err })
     }
 }
 
-module.exports = {signUp ,logIn,logOut,getAllProducts,getUserDetails,getProductDetails};
+module.exports = { signUp, logIn, logOut, getAllProducts, getUserDetails, getProductDetails };
